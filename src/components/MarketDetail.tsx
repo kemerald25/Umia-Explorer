@@ -409,7 +409,7 @@ export const MarketDetail: React.FC<MarketDetailProps> = ({
             <div>
               <h3 className="text-base font-semibold text-slate-100 flex items-center gap-2">
                 <Landmark className="w-4 h-4 text-emerald-400" />
-                <span>Onchain Governance Execution & Live Treasury Yield</span>
+                <span>Onchain Governance Execution & Treasury Yield Positions</span>
               </h3>
               <p className="text-xs text-slate-400 mt-1">
                 Verified actions executed by <code className="text-slate-300 font-mono">GovernanceExecutor</code> against the venture treasury after proposal victory.
@@ -447,11 +447,11 @@ export const MarketDetail: React.FC<MarketDetailProps> = ({
 
                 <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800/60 font-mono">
                   <div>
-                    <span className="text-slate-400 text-[10px]">Initial Allocated:</span>
+                    <span className="text-slate-400 text-[10px]">Initial Executed Deposit:</span>
                     <p className="text-slate-200 font-semibold">${pos.depositedUsd.toLocaleString()}</p>
                   </div>
                   <div>
-                    <span className="text-slate-400 text-[10px]">Current Asset Value:</span>
+                    <span className="text-slate-400 text-[10px]">Recorded Position Valuation:</span>
                     <p className="text-emerald-400 font-semibold">${pos.currentValueUsd.toLocaleString()}</p>
                   </div>
                 </div>

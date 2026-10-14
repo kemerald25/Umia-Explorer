@@ -19,6 +19,18 @@ All contract addresses below were verified directly against onchain bytecode, re
 - **UMIA Venture Treasury**: `0x57fbe5581A16bf5384e5195f3DD8c8A876f4FB05` (Venture #7 noncustodial treasury)
 - **Spot Liquidity Vault**: `0x7d53251E1e10Fb95c0Fd4cE263c6CCEF2A55a353` (Uniswap V4 canonical position)
 
+### Verified Onchain Markets & Canonical Transaction Records
+- **Market #1** (Koi3 TEST — Venture #3: "Liquidate the treasury?"):
+  - Creation Tx: `0x3b6a293b939938a9d975eb7761e2867bee6ebbcbeafeef1a2405584376967d47` (Block `50436287`)
+  - Settlement Tx: `0xb8fb9fe6b129d618d8732ad010abc94a45e21e67436feaedeee4b851fcf6b2cd` (Block `50438218`)
+- **Market #2** (Umia Protocol — Venture #5: "Liquidate the treasury?"):
+  - Creation Tx: `0x485bd25dc639f0e077a75e9f3dc5cdbc2c510918c279c414053c577265ce055f` (Block `50436688`)
+  - Settlement Tx: `0xd03dfcee6e19a8c289669afd939eebdc8836d9123f9db8ca1bfb851d0c0d1af4` (Block `50438668`)
+- **Market #3** (Umia Protocol — Venture #7: "Put the treasury capital to work in yield on Base?"):
+  - Creation Tx: `0x9b34c91af841dab9d395bf5e116f140674fcbb8a2ab072a2b32ca3159905a60d` (Block `51430134`)
+  - Settlement Tx: `0xeb8c8177aa082327482a7431ffc1d31e52d2b10340acfe5d7ad13f9f1f09cb00` (Block `51516867`)
+  - Execution Tx: `0xc2496ef7e5383b6522b0dc22159b12974aad8c204c52be40fa44db19daf23811` (Block `51524217`)
+
 ---
 
 ## Features

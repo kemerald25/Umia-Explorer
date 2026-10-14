@@ -44,9 +44,11 @@ export const LiveVerifierModal: React.FC<LiveVerifierModalProps> = ({
         {/* Modal Header */}
         <div className="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-950/60">
           <div className="flex items-center gap-2.5">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            <ShieldCheck className={`w-4 h-4 ${data?.isSimulatedFallback ? 'text-amber-400' : 'text-emerald-400'}`} />
             <h3 className="text-sm font-semibold text-slate-100">
-              Live Onchain Base Contract Verifier
+              {data?.isSimulatedFallback
+                ? 'Onchain Contract Verifier (Cached Snapshot)'
+                : 'Live Onchain Base Contract Verifier'}
             </h3>
           </div>
           <button
@@ -61,7 +63,9 @@ export const LiveVerifierModal: React.FC<LiveVerifierModalProps> = ({
         <div className="p-6 overflow-y-auto space-y-6">
           <div className="space-y-1">
             <p className="text-slate-300">
-              Verifying Market #{marketId} live against <code className="text-slate-200 font-mono">UmiaMarketCore</code> on Base Mainnet.
+              {data?.isSimulatedFallback
+                ? `Inspecting Market #${marketId} parameters against verified UmiaMarketCore onchain records.`
+                : `Verifying Market #${marketId} live against UmiaMarketCore on Base Mainnet.`}
             </p>
             <p className="text-[11px] text-slate-400 font-mono">
               Contract Address: {UMIA_MARKET_CORE} (Chain ID: 8453)
@@ -92,7 +96,9 @@ export const LiveVerifierModal: React.FC<LiveVerifierModalProps> = ({
               {/* Top Status Indicators */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 font-mono">
                 <div className="bg-slate-950/80 border border-slate-800 p-2.5 rounded-lg">
-                  <span className="text-[10px] text-slate-400">Live Block:</span>
+                  <span className="text-[10px] text-slate-400">
+                    {data.isSimulatedFallback ? 'Snapshot Block:' : 'Live Block:'}
+                  </span>
                   <p className="font-semibold text-slate-200 mt-0.5">#{data.blockNumber.toLocaleString()}</p>
                 </div>
                 <div className="bg-slate-950/80 border border-slate-800 p-2.5 rounded-lg">
@@ -123,7 +129,7 @@ export const LiveVerifierModal: React.FC<LiveVerifierModalProps> = ({
                       {data.isSimulatedFallback ? (
                         <span className="text-amber-400 font-semibold flex items-center gap-1 text-[11px]">
                           <AlertCircle className="w-3.5 h-3.5" />
-                          <span>Cached Snapshot</span>
+                          <span>Cached Snapshot (RPC Fallback)</span>
                         </span>
                       ) : isMatch ? (
                         <span className="text-emerald-400 font-semibold flex items-center gap-1 text-[11px]">
@@ -154,9 +160,13 @@ export const LiveVerifierModal: React.FC<LiveVerifierModalProps> = ({
                 );
               })()}
 
-              {/* Live Proposal Reserves Read */}
+              {/* Proposal Reserves Read */}
               <div className="space-y-2">
-                <span className="font-semibold text-slate-300">Live Proposal Reserves (CPMM State):</span>
+                <span className="font-semibold text-slate-300">
+                  {data.isSimulatedFallback
+                    ? 'Recorded Proposal Reserves (CPMM State):'
+                    : 'Live Proposal Reserves (CPMM State):'}
+                </span>
                 <div className="border border-slate-800 rounded-lg overflow-hidden">
                   <table className="w-full text-left font-mono text-[11px]">
                     <thead className="bg-slate-950/90 text-slate-400 border-b border-slate-800">
@@ -164,7 +174,9 @@ export const LiveVerifierModal: React.FC<LiveVerifierModalProps> = ({
                         <th className="py-2 px-3">Outcome</th>
                         <th className="py-2 px-3 text-right">Reserve0 (Venture)</th>
                         <th className="py-2 px-3 text-right">Reserve1 (Money)</th>
-                        <th className="py-2 px-3 text-right">Live Spot</th>
+                        <th className="py-2 px-3 text-right">
+                          {data.isSimulatedFallback ? 'Recorded Spot' : 'Live Spot'}
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-800/80 text-slate-300 bg-slate-950/40">
