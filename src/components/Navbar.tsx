@@ -1,0 +1,247 @@
+import React, { useState } from 'react';
+import { ShieldCheck, Menu, X, Layers, BarChart3, Calculator, HelpCircle, ChevronRight } from 'lucide-react';
+import { Market } from '../types';
+
+export type NavTab = 'directory' | 'terminal-list' | 'terminal-detail' | 'settlement-list' | 'settlement-detail' | 'methodology';
+
+interface NavbarProps {
+  activeTab: NavTab;
+  setActiveTab: (tab: NavTab) => void;
+  onOpenVerifier: () => void;
+  selectedMarketId: number;
+  markets: Market[];
+  onSelectMarket: (id: number) => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({
+  activeTab,
+  setActiveTab,
+  onOpenVerifier,
+  selectedMarketId,
+  markets,
+  onSelectMarket,
+}) => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const isTerminalActive = activeTab === 'terminal-list' || activeTab === 'terminal-detail';
+  const isSettlementActive = activeTab === 'settlement-list' || activeTab === 'settlement-detail';
+
+  const handleTabClick = (tab: NavTab) => {
+    setActiveTab(tab);
+    setMobileMenuOpen(false);
+  };
+
+  return (
+    <header className="sticky top-0 z-40 bg-slate-950/95 backdrop-blur-md border-b border-slate-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between gap-4 h-16">
+          {/* Brand Wordmark */}
+          <div className="flex items-center gap-3 shrink-0">
+            <button
+              onClick={() => handleTabClick('directory')}
+              className="text-left group cursor-pointer focus:outline-none flex items-center gap-2.5"
+            >
+              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm tracking-wider">
+                UM
+              </div>
+              <div className="flex flex-col">
+                <span className="text-sm font-bold tracking-tight text-slate-100 group-hover:text-emerald-400 transition-colors whitespace-nowrap">
+                  Umia Explorer
+                </span>
+                <span className="text-[10px] text-slate-400 font-mono -mt-0.5">
+                  Futarchy on Base
+                </span>
+              </div>
+            </button>
+          </div>
+
+          {/* Desktop Navigation Links */}
+          <nav className="hidden md:flex items-center gap-1 bg-slate-900/80 p-1 rounded-xl border border-slate-800 text-xs font-medium">
+            <button
+              onClick={() => handleTabClick('directory')}
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
+                activeTab === 'directory'
+                  ? 'bg-slate-800 text-slate-100 font-semibold shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <Layers className="w-3.5 h-3.5" />
+              <span>Markets Directory</span>
+            </button>
+
+            <button
+              onClick={() => handleTabClick('terminal-list')}
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
+                isTerminalActive
+                  ? 'bg-slate-800 text-slate-100 font-semibold shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <BarChart3 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Trading Terminals</span>
+            </button>
+
+            <button
+              onClick={() => handleTabClick('settlement-list')}
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
+                isSettlementActive
+                  ? 'bg-slate-800 text-slate-100 font-semibold shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <Calculator className="w-3.5 h-3.5 text-sky-400" />
+              <span>Settlement Audits</span>
+            </button>
+
+            <button
+              onClick={() => handleTabClick('methodology')}
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
+                activeTab === 'methodology'
+                  ? 'bg-slate-800 text-slate-100 font-semibold shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <HelpCircle className="w-3.5 h-3.5 text-amber-400" />
+              <span>How It Works</span>
+            </button>
+          </nav>
+
+          {/* Right Header Actions */}
+          <div className="hidden sm:flex items-center gap-3 shrink-0">
+            <div className="flex items-center gap-1.5 px-2.5 py-1 text-xs text-slate-300 bg-slate-900/60 border border-slate-800 rounded-lg font-mono">
+              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span>Base (8453)</span>
+            </div>
+
+            <button
+              onClick={onOpenVerifier}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium text-slate-200 bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-slate-600 rounded-lg transition-colors cursor-pointer whitespace-nowrap"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Verify Onchain</span>
+            </button>
+          </div>
+
+          {/* Mobile Hamburger Button */}
+          <div className="flex items-center gap-2 md:hidden">
+            <button
+              onClick={onOpenVerifier}
+              className="p-2 text-slate-300 hover:text-white bg-slate-900 border border-slate-800 rounded-lg"
+              title="Verify Onchain"
+            >
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            </button>
+
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 text-slate-300 hover:text-white bg-slate-900 border border-slate-800 rounded-lg focus:outline-none"
+              aria-label="Toggle Navigation Menu"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5 text-slate-200" /> : <Menu className="w-5 h-5 text-slate-200" />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Drawer / Slide-down Menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden border-t border-slate-800 bg-slate-950 px-4 pt-3 pb-6 space-y-3 shadow-2xl animate-in slide-in-from-top-2 duration-150">
+          <div className="text-xs font-mono text-slate-400 px-2 py-1 flex items-center justify-between border-b border-slate-800/80 pb-2">
+            <span>Navigation Menu</span>
+            <span className="flex items-center gap-1 text-emerald-400 font-mono">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              Base Mainnet (8453)
+            </span>
+          </div>
+
+          <div className="space-y-1">
+            <button
+              onClick={() => handleTabClick('directory')}
+              className={`w-full flex items-center justify-between p-3 rounded-xl text-left text-xs font-medium transition-colors ${
+                activeTab === 'directory'
+                  ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/30'
+                  : 'bg-slate-900/60 text-slate-200 hover:bg-slate-800'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Layers className="w-4 h-4 text-emerald-400" />
+                <div>
+                  <div className="font-semibold">Markets Directory</div>
+                  <div className="text-[11px] text-slate-400 font-normal">Catalog of all decision markets</div>
+                </div>
+              </div>
+              <ChevronRight className="w-4 h-4 text-slate-400" />
+            </button>
+
+            <button
+              onClick={() => handleTabClick('terminal-list')}
+              className={`w-full flex items-center justify-between p-3 rounded-xl text-left text-xs font-medium transition-colors ${
+                isTerminalActive
+                  ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/30'
+                  : 'bg-slate-900/60 text-slate-200 hover:bg-slate-800'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <BarChart3 className="w-4 h-4 text-emerald-400" />
+                <div>
+                  <div className="font-semibold">Trading Terminals</div>
+                  <div className="text-[11px] text-slate-400 font-normal">DEXScreener candlestick charts</div>
+                </div>
+              </div>
+              <ChevronRight className="w-4 h-4 text-slate-400" />
+            </button>
+
+            <button
+              onClick={() => handleTabClick('settlement-list')}
+              className={`w-full flex items-center justify-between p-3 rounded-xl text-left text-xs font-medium transition-colors ${
+                isSettlementActive
+                  ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/30'
+                  : 'bg-slate-900/60 text-slate-200 hover:bg-slate-800'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Calculator className="w-4 h-4 text-sky-400" />
+                <div>
+                  <div className="font-semibold">Settlement Audits</div>
+                  <div className="text-[11px] text-slate-400 font-normal">Mathematical proofs & execution trails</div>
+                </div>
+              </div>
+              <ChevronRight className="w-4 h-4 text-slate-400" />
+            </button>
+
+            <button
+              onClick={() => handleTabClick('methodology')}
+              className={`w-full flex items-center justify-between p-3 rounded-xl text-left text-xs font-medium transition-colors ${
+                activeTab === 'methodology'
+                  ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/30'
+                  : 'bg-slate-900/60 text-slate-200 hover:bg-slate-800'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <HelpCircle className="w-4 h-4 text-amber-400" />
+                <div>
+                  <div className="font-semibold">How It Works</div>
+                  <div className="text-[11px] text-slate-400 font-normal">Futarchy, No-Op, and TWAP guide</div>
+                </div>
+              </div>
+              <ChevronRight className="w-4 h-4 text-slate-400" />
+            </button>
+          </div>
+
+          <div className="pt-2">
+            <button
+              onClick={() => {
+                onOpenVerifier();
+                setMobileMenuOpen(false);
+              }}
+              className="w-full py-2.5 px-4 rounded-xl text-xs font-semibold bg-emerald-400 text-slate-950 flex items-center justify-center gap-2 shadow-sm"
+            >
+              <ShieldCheck className="w-4 h-4" />
+              <span>Verify Live Contract on Base</span>
+            </button>
+          </div>
+        </div>
+      )}
+    </header>
+  );
+};

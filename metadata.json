@@ -1,0 +1,6 @@
+{
+  "name": "Umia Decision Market Explorer",
+  "description": "Read-only developer explorer to discover, inspect, understand, and verify Umia futarchy decision markets on Base.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
