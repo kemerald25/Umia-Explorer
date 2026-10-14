@@ -116,7 +116,6 @@ export const DexScreenerChart: React.FC<DexScreenerChartProps> = ({
         const rawO = trades[0].priceBefore;
         let rawH = Math.max(rawO, trades[0].priceAfter);
         let rawL = Math.min(rawO, trades[0].priceAfter);
-        let vol = 0;
 
         trades.forEach((tr) => {
           rawH = Math.max(rawH, tr.priceBefore, tr.priceAfter);

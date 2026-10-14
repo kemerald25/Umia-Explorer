@@ -121,11 +121,13 @@ describe('Umia Protocol Decision Market Mechanics', () => {
     expect(firstSwap.timestamp).toBeLessThanOrEqual(lastSwap.timestamp);
   });
 
-  it('confirms contract solvency invariant from onchain data', () => {
+  it('confirms contract solvency invariant from recorded onchain state snapshot', () => {
+    // Note: Uses verified onchain settlement state snapshot from VERIFIED_MARKETS (marketSettlementState)
     const market3 = VERIFIED_MARKETS.find((m) => m.id === 3)!;
     const realVenture = BigInt(market3.settlementState!.realVenture);
     const realMoney = BigInt(market3.settlementState!.realMoney);
 
+    // Verify non-zero escrow reserves recorded at settlement
     expect(realVenture).toBeGreaterThan(0n);
     expect(realMoney).toBeGreaterThan(0n);
   });

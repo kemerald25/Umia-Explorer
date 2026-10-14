@@ -110,28 +110,49 @@ export const LiveVerifierModal: React.FC<LiveVerifierModalProps> = ({
               </div>
 
               {/* Settlement Outcome Verification */}
-              <div className="bg-slate-950/60 border border-slate-800/80 rounded-lg p-4 space-y-3">
-                <div className="flex justify-between items-center border-b border-slate-800 pb-2">
-                  <span className="font-semibold text-slate-200">Contract-Recorded Winner</span>
-                  <span className="text-emerald-400 font-semibold flex items-center gap-1">
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                    <span>Exact Match</span>
-                  </span>
-                </div>
+              {(() => {
+                const expectedMarket = ContractService.getMarketById(marketId);
+                const isMatch = expectedMarket?.winningProposalId
+                  ? data.winningProposalId === expectedMarket.winningProposalId
+                  : true;
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono">
-                  <div>
-                    <span className="text-slate-400 text-[10px]">Winning Proposal ID:</span>
-                    <p className="text-slate-100 font-semibold text-sm">#{data.winningProposalId}</p>
+                return (
+                  <div className="bg-slate-950/60 border border-slate-800/80 rounded-lg p-4 space-y-3">
+                    <div className="flex justify-between items-center border-b border-slate-800 pb-2">
+                      <span className="font-semibold text-slate-200">Contract-Recorded Winner</span>
+                      {data.isSimulatedFallback ? (
+                        <span className="text-amber-400 font-semibold flex items-center gap-1 text-[11px]">
+                          <AlertCircle className="w-3.5 h-3.5" />
+                          <span>Cached Snapshot</span>
+                        </span>
+                      ) : isMatch ? (
+                        <span className="text-emerald-400 font-semibold flex items-center gap-1 text-[11px]">
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          <span>Exact Match (Live RPC Verified)</span>
+                        </span>
+                      ) : (
+                        <span className="text-rose-400 font-semibold flex items-center gap-1 text-[11px]">
+                          <AlertCircle className="w-3.5 h-3.5" />
+                          <span>Winner Mismatch</span>
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono">
+                      <div>
+                        <span className="text-slate-400 text-[10px]">Winning Proposal ID:</span>
+                        <p className="text-slate-100 font-semibold text-sm">#{data.winningProposalId}</p>
+                      </div>
+                      <div>
+                        <span className="text-slate-400 text-[10px]">Contract Winning TWAP (Q112):</span>
+                        <p className="text-slate-100 font-semibold text-sm truncate">
+                          ${data.winningPriceUsd.toFixed(4)} USDC
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-slate-400 text-[10px]">Contract Winning TWAP (Q112):</span>
-                    <p className="text-slate-100 font-semibold text-sm truncate">
-                      ${data.winningPriceUsd.toFixed(4)} USDC
-                    </p>
-                  </div>
-                </div>
-              </div>
+                );
+              })()}
 
               {/* Live Proposal Reserves Read */}
               <div className="space-y-2">

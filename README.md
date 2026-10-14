@@ -45,7 +45,7 @@ All contract addresses below were verified directly against onchain bytecode, re
   $$\Delta_{\text{bps}} = \frac{(\text{highestTWAP} - \text{noOpTWAP}) \times 10{,}000}{\text{noOpTWAP}}$$
 - Validation against the snapshotted winning threshold (200 bps = 2.00%).
 - Verification of the 4-hour execution delay timelock (14,400s) and subsequent `GovernanceExecutor` transaction (`0xc2496ef7...`).
-- Post-settlement treasury outcome audit: Verifiable live deposits in Aave v3 USDC ($2.12M) and Morpho Steakhouse Prime USDC ($2.24M).
+- Post-settlement treasury outcome audit: Verifiable onchain executed deposits of $2,234,802 USDC each in Aave v3 USDC and Morpho Steakhouse Prime USDC (subsequently valued at ~$2.12M and ~$2.24M).
 - Contract solvency invariant proof: $\text{realTokenBalance} + \text{lpRemovalInfo} \ge \max(\text{userVirtualSupply})$.
 
 ### 4. Methodology & Protocol Guide
