@@ -32,9 +32,11 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <header className="fixed top-0 inset-x-0 z-40 bg-slate-950/95 backdrop-blur-md border-b border-slate-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-4 h-16">
+    <header className="fixed top-3 sm:top-4 inset-x-0 z-40 px-3 sm:px-6 lg:px-8 pointer-events-none">
+      <div className="max-w-7xl mx-auto pointer-events-auto">
+        <div className="bg-slate-900/75 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/50 rounded-2xl sm:rounded-3xl ring-1 ring-white/5 transition-all duration-200 overflow-hidden">
+          <div className="px-4 sm:px-6">
+            <div className="flex items-center justify-between gap-4 h-16">
           {/* Brand Wordmark */}
           <div className="flex items-center gap-3 shrink-0">
             <button
@@ -145,7 +147,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Drawer / Slide-down Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-800 bg-slate-950 px-4 pt-3 pb-6 space-y-3 shadow-2xl animate-in slide-in-from-top-2 duration-150 max-h-[calc(100vh-4rem)] overflow-y-auto">
+        <div className="md:hidden border-t border-white/10 bg-slate-950/90 backdrop-blur-xl px-4 pt-3 pb-6 space-y-3 shadow-2xl animate-in slide-in-from-top-2 duration-150 max-h-[calc(100vh-6rem)] overflow-y-auto">
           <div className="text-xs font-mono text-slate-400 px-2 py-1 flex items-center justify-between border-b border-slate-800/80 pb-2">
             <span>Navigation Menu</span>
             <span className="flex items-center gap-1 text-emerald-400 font-mono">
@@ -242,6 +244,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
       )}
+        </div>
+      </div>
     </header>
   );
 };

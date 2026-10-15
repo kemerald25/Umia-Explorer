@@ -70,7 +70,7 @@ export default function App() {
         }}
       />
 
-      <main className="flex-1 pt-16">
+      <main className="flex-1 pt-24 sm:pt-28">
         {/* Tab 1: Markets Directory */}
         {activeTab === 'directory' && (
           <MarketDirectory
