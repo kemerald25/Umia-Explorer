@@ -1,5 +1,6 @@
 import React from 'react';
 import { ExternalLink } from 'lucide-react';
+import { UmiaLogo } from './UmiaLogo';
 import { UMIA_MARKET_CORE, UMIA_HUB } from '../services/contractService';
 
 export const Footer: React.FC = () => {
@@ -8,7 +9,10 @@ export const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div className="max-w-md">
-            <span className="font-semibold text-slate-200">Umia Decision Market Explorer</span>
+            <div className="flex items-center gap-2 mb-1.5">
+              <UmiaLogo variant="white" className="w-10 h-10" />
+              <span className="font-semibold text-slate-200">Umia Decision Market Explorer</span>
+            </div>
             <p className="mt-1 text-slate-400 leading-relaxed">
               An independent, read-only open-source educational dashboard for exploring, verifying, and auditing futarchy decision markets on Base. Not affiliated with or endorsed by Umia Finance.
             </p>

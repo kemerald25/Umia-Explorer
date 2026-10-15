@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ShieldCheck, Menu, X, Layers, BarChart3, Calculator, HelpCircle, ChevronRight } from 'lucide-react';
+import { UmiaLogo } from './UmiaLogo';
 import { Market } from '../types';
 
 export type NavTab = 'directory' | 'terminal-list' | 'terminal-detail' | 'settlement-list' | 'settlement-detail' | 'methodology';
@@ -43,8 +44,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => handleTabClick('directory')}
               className="text-left group cursor-pointer focus:outline-none flex items-center gap-2.5"
             >
-              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm tracking-wider">
-                UM
+              <div className="relative flex items-center justify-center group-hover:scale-105 transition-transform">
+                <UmiaLogo className="w-10 h-10" />
               </div>
               <div className="flex flex-col">
                 <span className="text-sm font-bold tracking-tight text-slate-100 group-hover:text-emerald-400 transition-colors whitespace-nowrap">
