@@ -2,17 +2,115 @@
 <html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Umia Decision Market Explorer</title>
-    <meta name="description" content="Read-only developer explorer to discover, inspect, understand, and verify Umia futarchy decision markets on Base." />
-    <meta property="og:title" content="Umia Decision Market Explorer" />
-    <meta property="og:description" content="Read-only developer explorer to discover, inspect, understand, and verify Umia futarchy decision markets on Base." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>Umia Decision Market Explorer | Futarchy on Base</title>
+    <meta name="title" content="Umia Decision Market Explorer | Futarchy on Base" />
+    <meta name="description" content="Open-source, read-only developer explorer for Umia futarchy decision markets on Base network (Chain ID 8453). Inspect conditional TWAP markets, candlestick terminals, and mathematical settlement proofs." />
+    <meta name="keywords" content="Umia, futarchy, decision markets, Base, Base network, Ethereum, conditional tokens, TWAP, DEXScreener, Uniswap V4, onchain governance, prediction markets, crypto analytics, DeFi, smart contract verification" />
+    <meta name="author" content="Umia Explorer Community" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <link rel="canonical" href="https://umia-explorer.pages.dev/" />
+
+    <!-- Browser & Device Theme Styling -->
+    <meta name="theme-color" content="#020617" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Umia Explorer" />
+    <meta name="application-name" content="Umia Explorer" />
+
+    <!-- Open Graph / Facebook / LinkedIn / Discord -->
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://umia-explorer.pages.dev/" />
+    <meta property="og:site_name" content="Umia Decision Market Explorer" />
+    <meta property="og:title" content="Umia Decision Market Explorer | Futarchy on Base" />
+    <meta property="og:description" content="Read-only developer explorer for Umia futarchy decision markets on Base. Inspect conditional TWAP markets, candlestick terminals, and mathematical settlement proofs." />
+    <meta property="og:image" content="https://umia-explorer.pages.dev/og-image.svg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Umia Decision Market Explorer - Futarchy on Base" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X Cards -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@umiafinance" />
+    <meta name="twitter:creator" content="@umiafinance" />
+    <meta name="twitter:title" content="Umia Decision Market Explorer | Futarchy on Base" />
+    <meta name="twitter:description" content="Read-only developer explorer for Umia futarchy decision markets on Base. Inspect conditional TWAP markets, candlestick terminals, and mathematical settlement proofs." />
+    <meta name="twitter:image" content="https://umia-explorer.pages.dev/og-image.svg" />
+    <meta name="twitter:image:alt" content="Umia Decision Market Explorer - Futarchy on Base" />
+
+    <!-- Icons & Manifest -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Performance: Preconnect Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <!-- JSON-LD Structured Data Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "@id": "https://umia-explorer.pages.dev/#webapp",
+          "name": "Umia Decision Market Explorer",
+          "url": "https://umia-explorer.pages.dev/",
+          "description": "Read-only developer explorer to discover, inspect, understand, and verify Umia futarchy decision markets on Base (Chain ID 8453).",
+          "applicationCategory": "DeveloperApplication",
+          "operatingSystem": "All",
+          "inLanguage": "en",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "featureList": [
+            "Decision Markets Directory and Search",
+            "DEXScreener-style Candlestick Trading Terminals",
+            "Q112.112 TWAP Settlement Mathematics Verification",
+            "Solvency Invariant Audits and Execution Proofs",
+            "Live Base Mainnet RPC Verification (0x5597...29F6)"
+          ]
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Markets Directory",
+              "item": "https://umia-explorer.pages.dev/?tab=directory"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Trading Terminals",
+              "item": "https://umia-explorer.pages.dev/?tab=terminal-list"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Settlement Audits",
+              "item": "https://umia-explorer.pages.dev/?tab=settlement-list"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "How It Works",
+              "item": "https://umia-explorer.pages.dev/?tab=methodology"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
   </head>
   <body class="bg-slate-950 text-slate-100 antialiased min-h-screen selection:bg-emerald-500/20 selection:text-emerald-300">
     <div id="root"></div>

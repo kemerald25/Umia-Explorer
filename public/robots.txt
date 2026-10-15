@@ -1,0 +1,6 @@
+# Robots.txt for Umia Decision Market Explorer
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://umia-explorer.pages.dev/sitemap.xml

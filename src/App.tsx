@@ -54,6 +54,30 @@ export default function App() {
 
   const selectedMarket = markets.find((m) => m.id === selectedMarketId) || markets[0];
 
+  // Dynamic SEO title & social meta updates on tab and market transitions
+  useEffect(() => {
+    const titles: Record<NavTab, string> = {
+      'directory': 'Umia Decision Market Explorer | Futarchy on Base',
+      'terminal-list': 'Trading Terminals & Candlestick Charts | Umia Explorer',
+      'terminal-detail': selectedMarket
+        ? `Market #${selectedMarket.id}: ${selectedMarket.ventureName} | Umia Explorer`
+        : 'Trading Terminal | Umia Explorer',
+      'settlement-list': 'Settlement Audits & Invariant Proofs | Umia Explorer',
+      'settlement-detail': selectedMarket
+        ? `Settlement Proof Market #${selectedMarket.id} | Umia Explorer`
+        : 'Settlement Audit | Umia Explorer',
+      'methodology': 'Protocol Methodology & Futarchy Guide | Umia Explorer',
+    };
+    const title = titles[activeTab] || 'Umia Decision Market Explorer | Futarchy on Base';
+    document.title = title;
+
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', title);
+
+    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+    if (twitterTitle) twitterTitle.setAttribute('content', title);
+  }, [activeTab, selectedMarket]);
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 selection:bg-emerald-500/20 selection:text-emerald-300 overflow-x-hidden">
       <Navbar

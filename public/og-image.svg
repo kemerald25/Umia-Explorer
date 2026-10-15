@@ -1,0 +1,107 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Background Gradients -->
+    <radialGradient id="bgGlow" cx="20%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.35"/>
+      <stop offset="50%" stop-color="#082f49" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#020617" stop-opacity="1"/>
+    </radialGradient>
+    <radialGradient id="cyanGlow" cx="80%" cy="80%" r="50%">
+      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Logo Gradients -->
+    <linearGradient id="ogEmerald" x1="15%" y1="10%" x2="85%" y2="90%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="60%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="ogCyan" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <linearGradient id="ogBridge" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="50%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+
+    <!-- Grid Pattern -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.75" stroke-opacity="0.6"/>
+    </pattern>
+
+    <filter id="logoGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Dark Base Background -->
+  <rect width="1200" height="630" fill="#020617"/>
+  <rect width="1200" height="630" fill="url(#bgGlow)"/>
+  <rect width="1200" height="630" fill="url(#cyanGlow)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <!-- Subtle Border Frame -->
+  <rect x="24" y="24" width="1152" height="582" rx="28" fill="none" stroke="#334155" stroke-width="1.5" stroke-opacity="0.6"/>
+
+  <!-- Logo Group -->
+  <g transform="translate(100, 150) scale(2.2)" filter="url(#logoGlow)">
+    <!-- Left U branch -->
+    <path d="M 28 26 C 28 26, 38 28, 42 42 C 45 53, 40 68, 28 68 C 18 68, 14 55, 14 42 L 14 26 C 14 26, 24 26, 28 26 Z" fill="url(#ogEmerald)"/>
+    <path d="M 26 34 C 26 34, 32 38, 34 46 C 36 54, 32 62, 26 62 L 26 34 Z" fill="#6ee7b7" opacity="0.35"/>
+    
+    <!-- Base bridge -->
+    <path d="M 10 70 C 10 67, 12 65, 15 65 L 42 65 C 54 65, 62 57, 65 48 C 68 39, 68 28, 78 26 C 84 25, 87 29, 87 31 C 87 31, 80 32, 76 40 C 72 49, 68 62, 54 70 C 44 76, 30 76, 15 76 C 12 76, 10 73, 10 70 Z" fill="url(#ogBridge)"/>
+
+    <!-- Right ascending branch -->
+    <path d="M 52 64 C 60 58, 68 47, 72 38 C 74 33, 76 29, 84 27 L 84 32 C 77 34, 73 40, 71 47 C 67 61, 58 72, 45 74 L 52 64 Z" fill="url(#ogCyan)"/>
+    <path d="M 76 34 C 80 33, 84 34, 84 34 C 84 34, 81 48, 77 56 C 74 62, 69 68, 61 74 C 67 68, 73 58, 76 48 C 78 40, 76 34, 76 34 Z" fill="url(#ogCyan)" opacity="0.85"/>
+
+    <!-- Consensus node -->
+    <circle cx="62" cy="49" r="4.5" fill="#ffffff" stroke="#10b981" stroke-width="1.5"/>
+    <circle cx="62" cy="49" r="2" fill="#67e8f9"/>
+  </g>
+
+  <!-- Typography Content -->
+  <!-- Network Badge -->
+  <g transform="translate(360, 160)">
+    <rect width="210" height="36" rx="18" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+    <circle cx="20" cy="18" r="5" fill="#10b981"/>
+    <text x="36" y="23" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#94a3b8" letter-spacing="1">BASE MAINNET · 8453</text>
+  </g>
+
+  <!-- Main Title -->
+  <text x="360" y="255" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="800" fill="#f8fafc" letter-spacing="-1">Umia Explorer</text>
+  <text x="360" y="315" font-family="system-ui, -apple-system, sans-serif" font-size="30" font-weight="600" fill="#34d399">Decision Market Analytics &amp; Futarchy Audits</text>
+
+  <!-- Description paragraph -->
+  <text x="360" y="370" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="400" fill="#94a3b8">
+    Read-only developer explorer to inspect conditional TWAP markets,
+  </text>
+  <text x="360" y="400" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="400" fill="#94a3b8">
+    candlestick terminals, and mathematical settlement proofs on Base.
+  </text>
+
+  <!-- Feature Pills -->
+  <g transform="translate(360, 450)">
+    <!-- Pill 1 -->
+    <rect x="0" y="0" width="170" height="44" rx="12" fill="#0f172a" stroke="#1e293b"/>
+    <text x="20" y="27" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#e2e8f0">DEXScreener Charts</text>
+
+    <!-- Pill 2 -->
+    <rect x="185" y="0" width="180" height="44" rx="12" fill="#0f172a" stroke="#1e293b"/>
+    <text x="205" y="27" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#e2e8f0">Solvency Invariants</text>
+
+    <!-- Pill 3 -->
+    <rect x="380" y="0" width="165" height="44" rx="12" fill="#0f172a" stroke="#1e293b"/>
+    <text x="400" y="27" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#e2e8f0">Live Base RPC</text>
+
+    <!-- Pill 4 -->
+    <rect x="560" y="0" width="155" height="44" rx="12" fill="#0f172a" stroke="#1e293b"/>
+    <text x="580" y="27" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#34d399">Strictly Read-Only</text>
+  </g>
+</svg>
