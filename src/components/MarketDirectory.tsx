@@ -77,98 +77,105 @@ export const MarketDirectory: React.FC<MarketDirectoryProps> = ({
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-      {/* Unified Hero Banner with Ambient Three.js Wave Field */}
-      <div className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-8 bg-slate-900/40 border border-slate-800/80 overflow-hidden shadow-2xl backdrop-blur-sm">
+    <div className="relative w-full">
+      {/* Full-bleed Ambient Hero Section */}
+      <section className="relative w-full isolate overflow-hidden border-b border-slate-800/60 pt-4 pb-8 sm:pb-10 -mt-2">
+        {/* Full-width 3D Canvas Background */}
         <FutarchyHero3D />
 
-        <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>FUTARCHY MULTIVERSE</span>
-              <span className="text-slate-600">·</span>
-              <span className="text-slate-300">BASE MAINNET (8453)</span>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+          {/* Header Title & Badges */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pt-2">
+            <div className="space-y-3 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono backdrop-blur-md">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>FUTARCHY MULTIVERSE</span>
+                <span className="text-slate-600">·</span>
+                <span className="text-slate-300">BASE MAINNET (8453)</span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-100">
+                Umia Decision Market Directory
+              </h1>
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+                Discover and inspect real futarchy decision markets on Base. Every market trades conditional futures against the status quo (No-Op) to price governance proposals before binding onchain execution.
+              </p>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-100">
-              Umia Decision Market Directory
-            </h1>
-            <p className="text-sm text-slate-300 leading-relaxed">
-              Discover and inspect real futarchy decision markets on Base. Every market trades conditional futures against the status quo (No-Op) to price governance proposals before binding onchain execution.
-            </p>
+
+            <div className="flex flex-row items-center gap-3 shrink-0 text-xs font-mono">
+              <div className="px-4 py-2.5 rounded-xl bg-slate-900/80 border border-slate-800/80 backdrop-blur-md shadow-lg shadow-black/40">
+                <span className="text-slate-400 block text-[10px]">VERIFIED MARKETS</span>
+                <span className="font-bold text-slate-100 text-sm">{markets.length} Indexed</span>
+              </div>
+              <div className="px-4 py-2.5 rounded-xl bg-slate-900/80 border border-slate-800/80 backdrop-blur-md shadow-lg shadow-black/40">
+                <span className="text-slate-400 block text-[10px]">DATA FRESHNESS</span>
+                <span className="font-bold text-emerald-400 text-sm">{lastUpdated}</span>
+              </div>
+            </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 shrink-0 text-xs font-mono">
-            <div className="px-3.5 py-2 rounded-xl bg-slate-950/70 border border-slate-800/80 backdrop-blur-md">
-              <span className="text-slate-400 block text-[10px]">VERIFIED MARKETS</span>
-              <span className="font-semibold text-slate-100">{markets.length} Indexed</span>
+          {/* Filter and Search Bar integrated within Hero */}
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-4 border-t border-slate-800/40">
+            {/* Filter buttons - segmented control */}
+            <div className="flex items-center gap-1 p-1 bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-lg w-full sm:w-auto overflow-x-auto scrollbar-none max-w-full shadow-lg shadow-black/40">
+              <button
+                onClick={() => setStatusFilter('all')}
+                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
+                  statusFilter === 'all'
+                    ? 'bg-slate-800 text-slate-100 shadow-sm'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                All Markets ({markets.length})
+              </button>
+              <button
+                onClick={() => setStatusFilter('settled')}
+                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
+                  statusFilter === 'settled'
+                    ? 'bg-slate-800 text-slate-100 shadow-sm'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Settled & Executed
+              </button>
+              <button
+                onClick={() => setStatusFilter('treasury')}
+                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
+                  statusFilter === 'treasury'
+                    ? 'bg-slate-800 text-slate-100 shadow-sm'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Umia Venture Treasury
+              </button>
+              <button
+                onClick={() => setStatusFilter('liquidation')}
+                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
+                  statusFilter === 'liquidation'
+                    ? 'bg-slate-800 text-slate-100 shadow-sm'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Liquidation Markets
+              </button>
             </div>
-            <div className="px-3.5 py-2 rounded-xl bg-slate-950/70 border border-slate-800/80 backdrop-blur-md">
-              <span className="text-slate-400 block text-[10px]">DATA FRESHNESS</span>
-              <span className="text-emerald-400">{lastUpdated}</span>
+
+            {/* Search */}
+            <div className="relative w-full sm:w-72">
+              <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-500" />
+              <input
+                type="text"
+                placeholder="Search proposal or venture..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-slate-700 transition-colors shadow-lg shadow-black/40"
+              />
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 py-6">
-        {/* Filter buttons - segmented control */}
-        <div className="flex items-center gap-1 p-1 bg-slate-900 border border-slate-800 rounded-lg w-full sm:w-auto overflow-x-auto scrollbar-none max-w-full">
-          <button
-            onClick={() => setStatusFilter('all')}
-            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
-              statusFilter === 'all'
-                ? 'bg-slate-800 text-slate-100 shadow-sm'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            All Markets ({markets.length})
-          </button>
-          <button
-            onClick={() => setStatusFilter('settled')}
-            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
-              statusFilter === 'settled'
-                ? 'bg-slate-800 text-slate-100 shadow-sm'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            Settled & Executed
-          </button>
-          <button
-            onClick={() => setStatusFilter('treasury')}
-            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
-              statusFilter === 'treasury'
-                ? 'bg-slate-800 text-slate-100 shadow-sm'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            Umia Venture Treasury
-          </button>
-          <button
-            onClick={() => setStatusFilter('liquidation')}
-            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
-              statusFilter === 'liquidation'
-                ? 'bg-slate-800 text-slate-100 shadow-sm'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            Liquidation Markets
-          </button>
-        </div>
-
-        {/* Search */}
-        <div className="relative w-full sm:w-72">
-          <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-500" />
-          <input
-            type="text"
-            placeholder="Search proposal or venture..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-800 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-slate-700 transition-colors"
-          />
-        </div>
-      </div>
+      {/* Main Markets List Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
 
       {/* Markets List */}
       {filteredMarkets.length === 0 ? (
@@ -358,6 +365,7 @@ export const MarketDirectory: React.FC<MarketDirectoryProps> = ({
           })}
         </div>
       )}
+      </div>
     </div>
   );
 };
