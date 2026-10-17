@@ -1,6 +1,8 @@
 import React from 'react';
 import { Market } from '../types';
 import { BarChart3, ArrowRight, TrendingUp, Clock, CheckCircle2, ExternalLink } from 'lucide-react';
+import { SpotlightCard } from './ui/SpotlightCard';
+import { AnimatedCounter } from './ui/AnimatedCounter';
 
 interface TerminalListProps {
   markets: Market[];
@@ -43,9 +45,10 @@ export const TerminalList: React.FC<TerminalListProps> = ({
           const isFeatured = m.id === 3;
 
           return (
-            <div
+            <SpotlightCard
               key={m.id}
-              className={`bg-slate-900/70 border rounded-xl p-5 flex flex-col justify-between transition-all hover:border-slate-600 ${
+              spotlightColor={isFeatured ? 'rgba(52, 211, 153, 0.18)' : 'rgba(56, 189, 248, 0.12)'}
+              className={`p-5 flex flex-col justify-between transition-all ${
                 isFeatured
                   ? 'border-emerald-800/80 shadow-lg shadow-emerald-950/20 ring-1 ring-emerald-500/20'
                   : 'border-slate-800'
@@ -85,14 +88,14 @@ export const TerminalList: React.FC<TerminalListProps> = ({
                   <div className="bg-slate-950/80 p-2.5 rounded-lg border border-slate-800/60">
                     <span className="text-[10px] text-slate-400 block">Winning TWAP:</span>
                     <span className="text-emerald-400 font-bold text-sm">
-                      ${m.winningPriceUsd?.toFixed(4)}
+                      <AnimatedCounter value={m.winningPriceUsd || 0} decimals={4} prefix="$" />
                     </span>
                   </div>
 
                   <div className="bg-slate-950/80 p-2.5 rounded-lg border border-slate-800/60">
                     <span className="text-[10px] text-slate-400 block">No-Op Baseline:</span>
                     <span className="text-slate-200 font-bold text-sm">
-                      ${m.noOpPriceUsd?.toFixed(4)}
+                      <AnimatedCounter value={m.noOpPriceUsd || 0} decimals={4} prefix="$" />
                     </span>
                   </div>
                 </div>
@@ -125,18 +128,18 @@ export const TerminalList: React.FC<TerminalListProps> = ({
               <div className="pt-4 mt-4 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
                 <span className="text-[11px] text-emerald-400 font-mono flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                  <span>+{((m.priceDeltaBps || 0) / 100).toFixed(2)}% vs No-Op</span>
+                  <span>+<AnimatedCounter value={(m.priceDeltaBps || 0) / 100} decimals={2} suffix="%" /> vs No-Op</span>
                 </span>
 
                 <button
                   onClick={() => onSelectTerminal(m.id)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-900 bg-emerald-400 hover:bg-emerald-300 rounded-lg transition-colors cursor-pointer shrink-0"
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-900 bg-emerald-400 hover:bg-emerald-300 rounded-lg transition-colors cursor-pointer shrink-0 shadow-sm"
                 >
                   <span>Launch Terminal</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
-            </div>
+            </SpotlightCard>
           );
         })}
       </div>

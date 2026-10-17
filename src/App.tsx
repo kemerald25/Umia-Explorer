@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Navbar, NavTab } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { MarketDirectory } from './components/MarketDirectory';
@@ -95,72 +96,82 @@ export default function App() {
       />
 
       <main className="flex-1 pt-24 sm:pt-28">
-        {/* Tab 1: Markets Directory */}
-        {activeTab === 'directory' && (
-          <MarketDirectory
-            markets={markets}
-            onSelectMarket={(id) => {
-              setSelectedMarketId(id);
-            }}
-            onNavigateTab={(tab) => {
-              if (tab === 'detail') setActiveTab('terminal-detail');
-              else if (tab === 'settlement') setActiveTab('settlement-detail');
-              else if (tab === 'methodology') setActiveTab('methodology');
-            }}
-            isLoading={isLoading}
-            error={error}
-            onRetry={loadData}
-            lastUpdated={lastUpdated}
-          />
-        )}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {/* Tab 1: Markets Directory */}
+            {activeTab === 'directory' && (
+              <MarketDirectory
+                markets={markets}
+                onSelectMarket={(id) => {
+                  setSelectedMarketId(id);
+                }}
+                onNavigateTab={(tab) => {
+                  if (tab === 'detail') setActiveTab('terminal-detail');
+                  else if (tab === 'settlement') setActiveTab('settlement-detail');
+                  else if (tab === 'methodology') setActiveTab('methodology');
+                }}
+                isLoading={isLoading}
+                error={error}
+                onRetry={loadData}
+                lastUpdated={lastUpdated}
+              />
+            )}
 
-        {/* Tab 2A: Trading Terminals Hub (List of all market charts) */}
-        {activeTab === 'terminal-list' && (
-          <TerminalList
-            markets={markets}
-            onSelectTerminal={(id) => {
-              setSelectedMarketId(id);
-              setActiveTab('terminal-detail');
-            }}
-          />
-        )}
+            {/* Tab 2A: Trading Terminals Hub (List of all market charts) */}
+            {activeTab === 'terminal-list' && (
+              <TerminalList
+                markets={markets}
+                onSelectTerminal={(id) => {
+                  setSelectedMarketId(id);
+                  setActiveTab('terminal-detail');
+                }}
+              />
+            )}
 
-        {/* Tab 2B: Individual Trading Terminal Detail (DEXScreener chart & outcomes) */}
-        {activeTab === 'terminal-detail' && selectedMarket && (
-          <MarketDetail
-            market={selectedMarket}
-            swaps={swaps}
-            onBack={() => setActiveTab('terminal-list')}
-            onNavigateSettlement={() => setActiveTab('settlement-detail')}
-            onOpenVerifier={() => setIsVerifierOpen(true)}
-          />
-        )}
+            {/* Tab 2B: Individual Trading Terminal Detail (DEXScreener chart & outcomes) */}
+            {activeTab === 'terminal-detail' && selectedMarket && (
+              <MarketDetail
+                market={selectedMarket}
+                swaps={swaps}
+                onBack={() => setActiveTab('terminal-list')}
+                onNavigateSettlement={() => setActiveTab('settlement-detail')}
+                onOpenVerifier={() => setIsVerifierOpen(true)}
+              />
+            )}
 
-        {/* Tab 3A: Settlement Audits Hub (List of all settled markets) */}
-        {activeTab === 'settlement-list' && (
-          <SettlementList
-            markets={markets}
-            onSelectSettlement={(id) => {
-              setSelectedMarketId(id);
-              setActiveTab('settlement-detail');
-            }}
-            onOpenVerifier={() => setIsVerifierOpen(true)}
-          />
-        )}
+            {/* Tab 3A: Settlement Audits Hub (List of all settled markets) */}
+            {activeTab === 'settlement-list' && (
+              <SettlementList
+                markets={markets}
+                onSelectSettlement={(id) => {
+                  setSelectedMarketId(id);
+                  setActiveTab('settlement-detail');
+                }}
+                onOpenVerifier={() => setIsVerifierOpen(true)}
+              />
+            )}
 
-        {/* Tab 3B: Individual Settlement Audit Detail (Step-by-step mathematical proof) */}
-        {activeTab === 'settlement-detail' && selectedMarket && (
-          <SettlementBreakdown
-            market={selectedMarket}
-            onBack={() => setActiveTab('settlement-list')}
-            onOpenVerifier={() => setIsVerifierOpen(true)}
-            onSelectMarket={(id) => setSelectedMarketId(id)}
-            allMarkets={markets}
-          />
-        )}
+            {/* Tab 3B: Individual Settlement Audit Detail (Step-by-step mathematical proof) */}
+            {activeTab === 'settlement-detail' && selectedMarket && (
+              <SettlementBreakdown
+                market={selectedMarket}
+                onBack={() => setActiveTab('settlement-list')}
+                onOpenVerifier={() => setIsVerifierOpen(true)}
+                onSelectMarket={(id) => setSelectedMarketId(id)}
+                allMarkets={markets}
+              />
+            )}
 
-        {/* Tab 4: How It Works / Protocol Methodology */}
-        {activeTab === 'methodology' && <Methodology />}
+            {/* Tab 4: How It Works / Protocol Methodology */}
+            {activeTab === 'methodology' && <Methodology />}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
       <Footer />

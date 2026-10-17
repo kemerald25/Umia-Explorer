@@ -11,6 +11,8 @@ import {
   Landmark,
 } from 'lucide-react';
 import { Market } from '../types';
+import { SpotlightCard } from './ui/SpotlightCard';
+import { AnimatedCounter } from './ui/AnimatedCounter';
 
 interface SettlementBreakdownProps {
   market: Market;
@@ -103,7 +105,7 @@ export const SettlementBreakdown: React.FC<SettlementBreakdownProps> = ({
 
           <button
             onClick={onOpenVerifier}
-            className="shrink-0 flex items-center gap-2 px-4 py-2 text-xs font-medium text-slate-900 bg-emerald-400 hover:bg-emerald-300 rounded-lg transition-colors cursor-pointer"
+            className="shrink-0 flex items-center gap-2 px-4 py-2 text-xs font-medium text-slate-900 bg-emerald-400 hover:bg-emerald-300 rounded-lg transition-colors cursor-pointer shadow-sm hover:shadow"
           >
             <ShieldCheck className="w-4 h-4" />
             <span>Verify Live on Base</span>
@@ -114,7 +116,10 @@ export const SettlementBreakdown: React.FC<SettlementBreakdownProps> = ({
       {/* Step-by-Step Contract Formula Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Step 1: Baseline TWAP */}
-        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-5 space-y-4">
+        <SpotlightCard
+          spotlightColor="rgba(56, 189, 248, 0.14)"
+          className="p-5 space-y-4"
+        >
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-400 font-mono">01. NO-OP BASELINE</span>
             <span className="text-[11px] font-mono text-slate-400">Proposal #{noOp?.id}</span>
@@ -123,7 +128,7 @@ export const SettlementBreakdown: React.FC<SettlementBreakdownProps> = ({
           <div>
             <span className="text-xs text-slate-400">Final Oracle TWAP:</span>
             <p className="font-mono text-xl font-bold text-slate-100 mt-1">
-              ${noOpTwapUsd.toFixed(4)} <span className="text-xs font-normal text-slate-400">USDC</span>
+              <AnimatedCounter value={noOpTwapUsd} decimals={4} prefix="$" /> <span className="text-xs font-normal text-slate-400">USDC</span>
             </p>
             <p className="font-mono text-[11px] text-slate-400 mt-1 break-all">
               Raw Q112: {noOp?.twapX112}
@@ -133,10 +138,13 @@ export const SettlementBreakdown: React.FC<SettlementBreakdownProps> = ({
           <div className="pt-3 border-t border-slate-800 text-xs text-slate-400 leading-relaxed">
             The No-Op market tracks what the project token is priced at if <strong className="text-slate-300">no proposal is enacted</strong>. Every proposed action is compared against this neutral anchor.
           </div>
-        </div>
+        </SpotlightCard>
 
         {/* Step 2: Leading Outcome TWAP */}
-        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-5 space-y-4">
+        <SpotlightCard
+          spotlightColor="rgba(52, 211, 153, 0.16)"
+          className="p-5 space-y-4 border-emerald-900/60"
+        >
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-emerald-400 font-mono">02. LEADING OUTCOME</span>
             <span className="text-[11px] font-mono text-emerald-400">Proposal #{winner?.id}</span>
@@ -145,7 +153,7 @@ export const SettlementBreakdown: React.FC<SettlementBreakdownProps> = ({
           <div>
             <span className="text-xs text-slate-400">Final Oracle TWAP:</span>
             <p className="font-mono text-xl font-bold text-emerald-400 mt-1">
-              ${highestTwapUsd.toFixed(4)} <span className="text-xs font-normal text-emerald-400/80">USDC</span>
+              <AnimatedCounter value={highestTwapUsd} decimals={4} prefix="$" /> <span className="text-xs font-normal text-emerald-400/80">USDC</span>
             </p>
             <p className="font-mono text-[11px] text-slate-400 mt-1 break-all">
               Raw Q112: {winner?.twapX112}
@@ -155,10 +163,13 @@ export const SettlementBreakdown: React.FC<SettlementBreakdownProps> = ({
           <div className="pt-3 border-t border-slate-800 text-xs text-slate-400 leading-relaxed">
             Calculated by <code className="text-slate-300 font-mono">ConditionalMarketOracle.calculateTWAP()</code>. Weighted over all seconds in the trading window with 2.5x clamping.
           </div>
-        </div>
+        </SpotlightCard>
 
         {/* Step 3: Threshold Comparison */}
-        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-5 space-y-4">
+        <SpotlightCard
+          spotlightColor="rgba(52, 211, 153, 0.16)"
+          className="p-5 space-y-4"
+        >
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-400 font-mono">03. THRESHOLD TEST</span>
             <span className="text-[11px] font-mono text-emerald-400">CLEARED (PASS)</span>
@@ -167,7 +178,7 @@ export const SettlementBreakdown: React.FC<SettlementBreakdownProps> = ({
           <div>
             <span className="text-xs text-slate-400">Calculated Premium:</span>
             <p className="font-mono text-xl font-bold text-emerald-400 mt-1">
-              +{(deltaBps / 100).toFixed(2)}% <span className="text-xs text-slate-400 font-normal">({deltaBps} bps)</span>
+              +<AnimatedCounter value={deltaBps / 100} decimals={2} suffix="%" /> <span className="text-xs text-slate-400 font-normal">({deltaBps} bps)</span>
             </p>
             <p className="text-[11px] text-slate-400 mt-1 font-mono">
               Configured Barrier: ≥ {(thresholdBps / 100).toFixed(2)}% ({thresholdBps} bps)
@@ -177,7 +188,7 @@ export const SettlementBreakdown: React.FC<SettlementBreakdownProps> = ({
           <div className="pt-3 border-t border-slate-800 text-xs text-slate-400 leading-relaxed">
             Formula: <code className="text-slate-300 font-mono">mulDiv(diff, 10000, noOpTWAP) ≥ thresholdBps</code>. Since {deltaBps} bps ≥ {thresholdBps} bps, the win is ratified.
           </div>
-        </div>
+        </SpotlightCard>
       </div>
 
       {/* Contract Logic Walkthrough */}

@@ -1,6 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { Search, ExternalLink, ArrowRight, ShieldCheck, CheckCircle2, Clock } from 'lucide-react';
 import { Market } from '../types';
+import { FutarchyHero3D } from './3d/FutarchyHero3D';
+import { SpotlightCard } from './ui/SpotlightCard';
+import { AnimatedCounter } from './ui/AnimatedCounter';
 
 interface MarketDirectoryProps {
   markets: Market[];
@@ -74,22 +77,37 @@ export const MarketDirectory: React.FC<MarketDirectoryProps> = ({
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Header & Meta Bar */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-slate-800">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-100">
-            Umia Decision Market Directory
-          </h1>
-          <p className="text-sm text-slate-400 mt-1 max-w-2xl leading-relaxed">
-            Discover and inspect real futarchy decision markets on Base. Every market trades conditional futures against the status quo (No-Op) to price governance proposals before binding onchain execution.
-          </p>
-        </div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      {/* Unified Hero Banner with Ambient Three.js Wave Field */}
+      <div className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-8 bg-slate-900/40 border border-slate-800/80 overflow-hidden shadow-2xl backdrop-blur-sm">
+        <FutarchyHero3D />
 
-        <div className="text-xs text-slate-400 font-mono flex items-center gap-2 shrink-0">
-          <span>Data freshness: {lastUpdated}</span>
-          <span className="text-slate-600">·</span>
-          <span>Chain: Base Mainnet (8453)</span>
+        <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="space-y-2 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>FUTARCHY MULTIVERSE</span>
+              <span className="text-slate-600">·</span>
+              <span className="text-slate-300">BASE MAINNET (8453)</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-100">
+              Umia Decision Market Directory
+            </h1>
+            <p className="text-sm text-slate-300 leading-relaxed">
+              Discover and inspect real futarchy decision markets on Base. Every market trades conditional futures against the status quo (No-Op) to price governance proposals before binding onchain execution.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 shrink-0 text-xs font-mono">
+            <div className="px-3.5 py-2 rounded-xl bg-slate-950/70 border border-slate-800/80 backdrop-blur-md">
+              <span className="text-slate-400 block text-[10px]">VERIFIED MARKETS</span>
+              <span className="font-semibold text-slate-100">{markets.length} Indexed</span>
+            </div>
+            <div className="px-3.5 py-2 rounded-xl bg-slate-950/70 border border-slate-800/80 backdrop-blur-md">
+              <span className="text-slate-400 block text-[10px]">DATA FRESHNESS</span>
+              <span className="text-emerald-400">{lastUpdated}</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -175,9 +193,10 @@ export const MarketDirectory: React.FC<MarketDirectoryProps> = ({
             const noOpProposal = market.proposals.find((p) => p.isNoOp);
 
             return (
-              <div
+              <SpotlightCard
                 key={market.id}
-                className="bg-slate-900/60 border border-slate-800 hover:border-slate-700/80 rounded-xl p-6 transition-all"
+                className="p-6 transition-all"
+                spotlightColor="rgba(52, 211, 153, 0.14)"
               >
                 {/* Card Header */}
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-800/80">
@@ -225,7 +244,7 @@ export const MarketDirectory: React.FC<MarketDirectoryProps> = ({
                         onSelectMarket(market.id);
                         onNavigateTab('detail');
                       }}
-                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-950/40 hover:bg-emerald-950/70 border border-emerald-800/60 rounded-lg transition-colors cursor-pointer"
+                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-950/40 hover:bg-emerald-950/70 border border-emerald-800/60 rounded-lg transition-colors cursor-pointer shadow-sm hover:shadow"
                     >
                       <span>Inspect Market</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -242,7 +261,7 @@ export const MarketDirectory: React.FC<MarketDirectoryProps> = ({
                         key={proposal.id}
                         className={`p-3 rounded-lg border text-xs transition-colors ${
                           isWinner
-                            ? 'bg-emerald-950/20 border-emerald-800/50'
+                            ? 'bg-emerald-950/25 border-emerald-700/60 shadow-sm shadow-emerald-950/30'
                             : 'bg-slate-950/50 border-slate-800/80'
                         }`}
                       >
@@ -265,7 +284,7 @@ export const MarketDirectory: React.FC<MarketDirectoryProps> = ({
                         <div className="flex justify-between items-baseline pt-2 border-t border-slate-800/60">
                           <span className="text-slate-400 text-[11px]">TWAP:</span>
                           <span className="font-mono tabular-nums font-semibold text-slate-100">
-                            ${proposal.twapUsd.toFixed(4)} {market.moneyTokenSymbol}
+                            <AnimatedCounter value={proposal.twapUsd} decimals={4} prefix="$" /> {market.moneyTokenSymbol}
                           </span>
                         </div>
                         <div className="flex justify-between items-baseline text-[11px] text-slate-400 mt-0.5">
@@ -290,8 +309,8 @@ export const MarketDirectory: React.FC<MarketDirectoryProps> = ({
                       <span className="text-emerald-400">
                         Winner: <strong className="font-semibold">{winningProposal.isNoOp ? 'No-Op' : winningProposal.title}</strong>
                         {market.priceDeltaBps !== null && (
-                          <span className="font-mono ml-1 text-slate-300">
-                            (+{(market.priceDeltaBps / 100).toFixed(2)}% vs No-Op)
+                          <span className="font-mono ml-1 text-emerald-300 font-semibold bg-emerald-950/60 border border-emerald-800/50 px-1.5 py-0.5 rounded">
+                            +<AnimatedCounter value={market.priceDeltaBps / 100} decimals={2} suffix="%" /> vs No-Op
                           </span>
                         )}
                       </span>
@@ -334,7 +353,7 @@ export const MarketDirectory: React.FC<MarketDirectoryProps> = ({
                     </button>
                   </div>
                 </div>
-              </div>
+              </SpotlightCard>
             );
           })}
         </div>

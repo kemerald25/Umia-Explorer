@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { X, ShieldCheck, RefreshCw, CheckCircle2, AlertCircle, ExternalLink } from 'lucide-react';
 import { ContractService, LiveVerificationResult, UMIA_MARKET_CORE } from '../services/contractService';
+import { ConsensusGyroscope3D } from './3d/ConsensusGyroscope3D';
 
 interface LiveVerifierModalProps {
   isOpen: boolean;
@@ -39,10 +41,16 @@ export const LiveVerifierModal: React.FC<LiveVerifierModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-slate-900 border border-slate-700 rounded-xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden text-xs">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.94, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.94, y: 10 }}
+        transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+        className="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden text-xs"
+      >
         {/* Modal Header */}
-        <div className="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-950/60">
+        <div className="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-950/70">
           <div className="flex items-center gap-2.5">
             <ShieldCheck className={`w-4 h-4 ${data?.isSimulatedFallback ? 'text-amber-400' : 'text-emerald-400'}`} />
             <h3 className="text-sm font-semibold text-slate-100">
@@ -53,7 +61,7 @@ export const LiveVerifierModal: React.FC<LiveVerifierModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-200 transition-colors cursor-pointer p-1"
+            className="text-slate-400 hover:text-slate-200 transition-colors cursor-pointer p-1 rounded-lg hover:bg-slate-800"
           >
             <X className="w-4 h-4" />
           </button>
@@ -61,21 +69,34 @@ export const LiveVerifierModal: React.FC<LiveVerifierModalProps> = ({
 
         {/* Modal Body */}
         <div className="p-6 overflow-y-auto space-y-6">
-          <div className="space-y-1">
-            <p className="text-slate-300">
-              {data?.isSimulatedFallback
-                ? `Inspecting Market #${marketId} parameters against verified UmiaMarketCore onchain records.`
-                : `Verifying Market #${marketId} live against UmiaMarketCore on Base Mainnet.`}
-            </p>
-            <p className="text-[11px] text-slate-400 font-mono">
-              Contract Address: {UMIA_MARKET_CORE} (Chain ID: 8453)
-            </p>
+          {/* 3D Cryptographic Consensus Gyroscope */}
+          <div className="bg-slate-950/60 border border-slate-800/80 rounded-xl p-4 flex flex-col sm:flex-row items-center gap-4 justify-between">
+            <ConsensusGyroscope3D
+              isQuerying={loading}
+              isVerified={!!data && !error}
+              isFallback={data?.isSimulatedFallback}
+            />
+            <div className="flex-1 text-center sm:text-left space-y-1">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400">
+                {loading ? 'Cryptographic State Query' : 'Consensus Rings Locked'}
+              </span>
+              <p className="text-xs text-slate-200 font-medium">
+                {loading
+                  ? `Querying Base L2 block state & UmiaMarketCore parameters...`
+                  : data?.isSimulatedFallback
+                  ? `Snapshot verified: Parameters clamp-checked against canonical Base state.`
+                  : `Real-time RPC verified: Live Base contracts & CPMM reserves matched.`}
+              </p>
+              <p className="text-[11px] text-slate-400 font-mono">
+                Contract: {UMIA_MARKET_CORE} (Chain ID: 8453)
+              </p>
+            </div>
           </div>
 
           {loading ? (
-            <div className="py-12 flex flex-col items-center justify-center space-y-3">
-              <RefreshCw className="w-6 h-6 text-emerald-400 animate-spin" />
-              <p className="text-slate-400 text-xs">Querying Base Mainnet state via viem...</p>
+            <div className="py-6 flex flex-col items-center justify-center space-y-3">
+              <RefreshCw className="w-5 h-5 text-emerald-400 animate-spin" />
+              <p className="text-slate-400 text-xs font-mono">Querying Base Mainnet state via viem...</p>
             </div>
           ) : error ? (
             <div className="p-4 bg-rose-950/40 border border-rose-800/80 rounded-lg text-rose-300 space-y-2">
@@ -239,7 +260,7 @@ export const LiveVerifierModal: React.FC<LiveVerifierModalProps> = ({
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

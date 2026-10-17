@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { ShieldCheck, Menu, X, Layers, BarChart3, Calculator, HelpCircle, ChevronRight } from 'lucide-react';
 import { UmiaLogo } from './UmiaLogo';
 import { Market } from '../types';
@@ -32,6 +33,37 @@ export const Navbar: React.FC<NavbarProps> = ({
     setMobileMenuOpen(false);
   };
 
+  const navItems = [
+    {
+      id: 'directory' as NavTab,
+      label: 'Markets Directory',
+      icon: Layers,
+      isActive: activeTab === 'directory',
+      iconColor: '',
+    },
+    {
+      id: 'terminal-list' as NavTab,
+      label: 'Trading Terminals',
+      icon: BarChart3,
+      isActive: isTerminalActive,
+      iconColor: 'text-emerald-400',
+    },
+    {
+      id: 'settlement-list' as NavTab,
+      label: 'Settlement Audits',
+      icon: Calculator,
+      isActive: isSettlementActive,
+      iconColor: 'text-sky-400',
+    },
+    {
+      id: 'methodology' as NavTab,
+      label: 'How It Works',
+      icon: HelpCircle,
+      isActive: activeTab === 'methodology',
+      iconColor: 'text-amber-400',
+    },
+  ];
+
   return (
     <header className="fixed top-3 sm:top-4 inset-x-0 z-40 px-3 sm:px-6 lg:px-8 pointer-events-none">
       <div className="max-w-7xl mx-auto pointer-events-auto">
@@ -58,67 +90,42 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           </div>
 
-          {/* Desktop Navigation Links */}
+          {/* Desktop Navigation Links with Magnetic Sliding Pill */}
           <nav className="hidden md:flex items-center gap-1 bg-slate-900/80 p-1 rounded-xl border border-slate-800 text-xs font-medium">
-            <button
-              onClick={() => handleTabClick('directory')}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
-                activeTab === 'directory'
-                  ? 'bg-slate-800 text-slate-100 font-semibold shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              <Layers className="w-3.5 h-3.5" />
-              <span>Markets Directory</span>
-            </button>
-
-            <button
-              onClick={() => handleTabClick('terminal-list')}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
-                isTerminalActive
-                  ? 'bg-slate-800 text-slate-100 font-semibold shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              <BarChart3 className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Trading Terminals</span>
-            </button>
-
-            <button
-              onClick={() => handleTabClick('settlement-list')}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
-                isSettlementActive
-                  ? 'bg-slate-800 text-slate-100 font-semibold shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              <Calculator className="w-3.5 h-3.5 text-sky-400" />
-              <span>Settlement Audits</span>
-            </button>
-
-            <button
-              onClick={() => handleTabClick('methodology')}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
-                activeTab === 'methodology'
-                  ? 'bg-slate-800 text-slate-100 font-semibold shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              <HelpCircle className="w-3.5 h-3.5 text-amber-400" />
-              <span>How It Works</span>
-            </button>
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleTabClick(item.id)}
+                  className={`relative flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg transition-colors cursor-pointer whitespace-nowrap z-10 ${
+                    item.isActive ? 'text-slate-100 font-semibold' : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  {item.isActive && (
+                    <motion.div
+                      layoutId="navbar-active-pill"
+                      className="absolute inset-0 bg-slate-800 border border-slate-700/80 rounded-lg shadow-sm -z-10"
+                      transition={{ type: 'spring', stiffness: 420, damping: 32 }}
+                    />
+                  )}
+                  <Icon className={`w-3.5 h-3.5 ${item.iconColor || ''}`} />
+                  <span>{item.label}</span>
+                </button>
+              );
+            })}
           </nav>
 
           {/* Right Header Actions */}
           <div className="hidden sm:flex items-center gap-3 shrink-0">
             <div className="flex items-center gap-1.5 px-2.5 py-1 text-xs text-slate-300 bg-slate-900/60 border border-slate-800 rounded-lg font-mono">
-              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               <span>Base (8453)</span>
             </div>
 
             <button
               onClick={onOpenVerifier}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium text-slate-200 bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-slate-600 rounded-lg transition-colors cursor-pointer whitespace-nowrap"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium text-slate-200 bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-slate-600 rounded-lg transition-colors cursor-pointer whitespace-nowrap shadow-sm hover:shadow"
             >
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
               <span>Verify Onchain</span>
@@ -146,105 +153,64 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
-      {/* Mobile Drawer / Slide-down Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-t border-white/10 bg-slate-950/90 backdrop-blur-xl px-4 pt-3 pb-6 space-y-3 shadow-2xl animate-in slide-in-from-top-2 duration-150 max-h-[calc(100vh-6rem)] overflow-y-auto">
-          <div className="text-xs font-mono text-slate-400 px-2 py-1 flex items-center justify-between border-b border-slate-800/80 pb-2">
-            <span>Navigation Menu</span>
-            <span className="flex items-center gap-1 text-emerald-400 font-mono">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              Base Mainnet (8453)
-            </span>
-          </div>
+      {/* Mobile Drawer / Slide-down Menu with Framer Motion */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            className="md:hidden border-t border-white/10 bg-slate-950/95 backdrop-blur-2xl px-4 pt-3 pb-6 space-y-3 shadow-2xl overflow-hidden"
+          >
+            <div className="text-xs font-mono text-slate-400 px-2 py-1 flex items-center justify-between border-b border-slate-800/80 pb-2">
+              <span>Navigation Menu</span>
+              <span className="flex items-center gap-1 text-emerald-400 font-mono">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                Base Mainnet (8453)
+              </span>
+            </div>
 
-          <div className="space-y-1">
-            <button
-              onClick={() => handleTabClick('directory')}
-              className={`w-full flex items-center justify-between p-3 rounded-xl text-left text-xs font-medium transition-colors ${
-                activeTab === 'directory'
-                  ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/30'
-                  : 'bg-slate-900/60 text-slate-200 hover:bg-slate-800'
-              }`}
-            >
-              <div className="flex items-center gap-2.5">
-                <Layers className="w-4 h-4 text-emerald-400" />
-                <div>
-                  <div className="font-semibold">Markets Directory</div>
-                  <div className="text-[11px] text-slate-400 font-normal">Catalog of all decision markets</div>
-                </div>
-              </div>
-              <ChevronRight className="w-4 h-4 text-slate-400" />
-            </button>
+            <div className="space-y-1">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => handleTabClick(item.id)}
+                    className={`w-full flex items-center justify-between p-3 rounded-xl text-left text-xs font-medium transition-colors ${
+                      item.isActive
+                        ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/30'
+                        : 'bg-slate-900/60 text-slate-200 hover:bg-slate-800'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <Icon className={`w-4 h-4 ${item.iconColor || 'text-emerald-400'}`} />
+                      <div>
+                        <div className="font-semibold">{item.label}</div>
+                      </div>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-slate-400" />
+                  </button>
+                );
+              })}
+            </div>
 
-            <button
-              onClick={() => handleTabClick('terminal-list')}
-              className={`w-full flex items-center justify-between p-3 rounded-xl text-left text-xs font-medium transition-colors ${
-                isTerminalActive
-                  ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/30'
-                  : 'bg-slate-900/60 text-slate-200 hover:bg-slate-800'
-              }`}
-            >
-              <div className="flex items-center gap-2.5">
-                <BarChart3 className="w-4 h-4 text-emerald-400" />
-                <div>
-                  <div className="font-semibold">Trading Terminals</div>
-                  <div className="text-[11px] text-slate-400 font-normal">DEXScreener candlestick charts</div>
-                </div>
-              </div>
-              <ChevronRight className="w-4 h-4 text-slate-400" />
-            </button>
-
-            <button
-              onClick={() => handleTabClick('settlement-list')}
-              className={`w-full flex items-center justify-between p-3 rounded-xl text-left text-xs font-medium transition-colors ${
-                isSettlementActive
-                  ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/30'
-                  : 'bg-slate-900/60 text-slate-200 hover:bg-slate-800'
-              }`}
-            >
-              <div className="flex items-center gap-2.5">
-                <Calculator className="w-4 h-4 text-sky-400" />
-                <div>
-                  <div className="font-semibold">Settlement Audits</div>
-                  <div className="text-[11px] text-slate-400 font-normal">Mathematical proofs & execution trails</div>
-                </div>
-              </div>
-              <ChevronRight className="w-4 h-4 text-slate-400" />
-            </button>
-
-            <button
-              onClick={() => handleTabClick('methodology')}
-              className={`w-full flex items-center justify-between p-3 rounded-xl text-left text-xs font-medium transition-colors ${
-                activeTab === 'methodology'
-                  ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/30'
-                  : 'bg-slate-900/60 text-slate-200 hover:bg-slate-800'
-              }`}
-            >
-              <div className="flex items-center gap-2.5">
-                <HelpCircle className="w-4 h-4 text-amber-400" />
-                <div>
-                  <div className="font-semibold">How It Works</div>
-                  <div className="text-[11px] text-slate-400 font-normal">Futarchy, No-Op, and TWAP guide</div>
-                </div>
-              </div>
-              <ChevronRight className="w-4 h-4 text-slate-400" />
-            </button>
-          </div>
-
-          <div className="pt-2">
-            <button
-              onClick={() => {
-                onOpenVerifier();
-                setMobileMenuOpen(false);
-              }}
-              className="w-full py-2.5 px-4 rounded-xl text-xs font-semibold bg-emerald-400 text-slate-950 flex items-center justify-center gap-2 shadow-sm"
-            >
-              <ShieldCheck className="w-4 h-4" />
-              <span>Verify Live Contract on Base</span>
-            </button>
-          </div>
-        </div>
-      )}
+            <div className="pt-2">
+              <button
+                onClick={() => {
+                  onOpenVerifier();
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full py-2.5 px-4 rounded-xl text-xs font-semibold bg-emerald-400 text-slate-950 flex items-center justify-center gap-2 shadow-sm cursor-pointer hover:bg-emerald-300 transition-colors"
+              >
+                <ShieldCheck className="w-4 h-4" />
+                <span>Verify Live Contract on Base</span>
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
         </div>
       </div>
     </header>

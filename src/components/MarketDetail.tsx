@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { Market, SwapObservation } from '../types';
 import { DexScreenerChart } from './DexScreenerChart';
+import { AnimatedCounter } from './ui/AnimatedCounter';
 
 interface MarketDetailProps {
   market: Market;
@@ -88,7 +89,7 @@ export const MarketDetail: React.FC<MarketDetailProps> = ({
             <div className="bg-slate-950/70 border border-slate-800/80 p-3 rounded-lg text-xs min-w-0">
               <span className="text-slate-400">Winning TWAP</span>
               <p className="font-mono tabular-nums text-base sm:text-lg font-bold text-emerald-400 mt-1 truncate">
-                ${market.winningPriceUsd?.toFixed(4)}
+                <AnimatedCounter value={market.winningPriceUsd || 0} decimals={4} prefix="$" />
               </p>
               <span className="text-[10px] text-slate-400">Contract-averaged</span>
             </div>
@@ -96,7 +97,7 @@ export const MarketDetail: React.FC<MarketDetailProps> = ({
             <div className="bg-slate-950/70 border border-slate-800/80 p-3 rounded-lg text-xs min-w-0">
               <span className="text-slate-400">Baseline (No-Op)</span>
               <p className="font-mono tabular-nums text-base sm:text-lg font-bold text-slate-200 mt-1 truncate">
-                ${market.noOpPriceUsd?.toFixed(4)}
+                <AnimatedCounter value={market.noOpPriceUsd || 0} decimals={4} prefix="$" />
               </p>
               <span className="text-[10px] text-slate-400">Status Quo TWAP</span>
             </div>
@@ -104,7 +105,7 @@ export const MarketDetail: React.FC<MarketDetailProps> = ({
             <div className="bg-slate-950/70 border border-slate-800/80 p-3 rounded-lg text-xs col-span-2 sm:col-span-1 min-w-0">
               <span className="text-slate-400">Price Premium</span>
               <p className="font-mono tabular-nums text-base sm:text-lg font-bold text-emerald-400 mt-1 truncate">
-                +{((market.priceDeltaBps || 0) / 100).toFixed(2)}%
+                +<AnimatedCounter value={(market.priceDeltaBps || 0) / 100} decimals={2} suffix="%" />
               </p>
               <span className="text-[10px] text-slate-400">Threshold: 2.00%</span>
             </div>
