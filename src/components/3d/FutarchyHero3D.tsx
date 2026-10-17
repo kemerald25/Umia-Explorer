@@ -20,8 +20,8 @@ export const FutarchyHero3D: React.FC = () => {
     let height = container.clientHeight || 340;
 
     const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
-    camera.position.set(0, 7, 30);
-    camera.lookAt(0, 0, 0);
+    camera.position.set(0, 9, 32);
+    camera.lookAt(0, -1.5, 0);
 
     // RENDERER
     const renderer = new THREE.WebGLRenderer({
@@ -41,9 +41,9 @@ export const FutarchyHero3D: React.FC = () => {
       pCanvas.height = 64;
       const ctx = pCanvas.getContext('2d')!;
       const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-      grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
-      grad.addColorStop(0.25, 'rgba(110, 231, 183, 0.9)');
-      grad.addColorStop(0.6, 'rgba(16, 185, 129, 0.4)');
+      grad.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
+      grad.addColorStop(0.25, 'rgba(110, 231, 183, 0.6)');
+      grad.addColorStop(0.6, 'rgba(16, 185, 129, 0.25)');
       grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
       ctx.fillStyle = grad;
       ctx.beginPath();
@@ -77,7 +77,7 @@ export const FutarchyHero3D: React.FC = () => {
         const v = (j / (rows - 1) - 0.5) * 32;
 
         positions[idx * 3] = u;
-        positions[idx * 3 + 1] = 0;
+        positions[idx * 3 + 1] = -2.5; // lower baseline so text is unobscured
         positions[idx * 3 + 2] = v;
 
         baseCoords[idx * 2] = u;
@@ -102,11 +102,11 @@ export const FutarchyHero3D: React.FC = () => {
     waveGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
     const waveMat = new THREE.PointsMaterial({
-      size: 2.2,
+      size: 1.8,
       vertexColors: true,
       map: texture,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.45,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
@@ -296,7 +296,9 @@ export const FutarchyHero3D: React.FC = () => {
       className="absolute inset-0 pointer-events-none overflow-hidden z-0"
     >
       <canvas ref={canvasRef} className="w-full h-full block" />
-      {/* Subtle top & bottom soft gradient fade for seamless integration */}
+      {/* Horizontal contrast scrim: guarantees text on the left is crystal clear while waves shine through on the right */}
+      <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/75 to-transparent pointer-events-none" />
+      {/* Top & bottom soft edge fades */}
       <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent pointer-events-none" />
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-transparent to-transparent pointer-events-none" />
     </div>

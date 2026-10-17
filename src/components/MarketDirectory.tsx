@@ -93,10 +93,10 @@ export const MarketDirectory: React.FC<MarketDirectoryProps> = ({
                 <span className="text-slate-600">·</span>
                 <span className="text-slate-300">BASE MAINNET (8453)</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-100">
+              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white drop-shadow-sm">
                 Umia Decision Market Directory
               </h1>
-              <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+              <p className="text-sm sm:text-base text-slate-200/95 leading-relaxed font-normal">
                 Discover and inspect real futarchy decision markets on Base. Every market trades conditional futures against the status quo (No-Op) to price governance proposals before binding onchain execution.
               </p>
             </div>
